@@ -1,6 +1,6 @@
 'use client'
 import { Header } from "@/app/components/Header";
-import { UserInformationStep } from "@/app/components/UserInformationStep";
+import { UserInfoStep } from "@/app/components/UserInfoStep";
 import { ContinueButton } from "@/app/components/ContinueButton";
 import { useState } from "react";
 import { ContactStep } from "./components/ContactStep";
@@ -8,6 +8,7 @@ import { ContactStep } from "./components/ContactStep";
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0);
+
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -15,9 +16,22 @@ export default function Home() {
     email: "",
     phoneNumber: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   })
-  const nextStep = () => {
+  const [formErrors, setFormErrors] = useState({
+    firstName: null,
+    lastName: null,
+    userName: null,
+    email: "",
+    phoneNumber: "",
+    password: "",
+    confirmPassword: ""
+  })
+  const steps = [UserInfoStep];
+  const Component = steps[currentStep]
+
+  const nextStep = (event) => {
+    event.preventDefault()
     setCurrentStep((prev) => prev + 1)
   }
   return (
@@ -46,17 +60,21 @@ export default function Home() {
     //   </div>
     // </div>
     <main>
-      <div className="w-[460px] h-[516px] mx-auto bg-white shadow-sm p-8 text-black">
+      <div className="w-[480px] h-[655px] mx-auto bg-white shadow-sm p-8">
         <Header />
 
         <form className="mt-7 space-y-3">
-          {currentStep == 0 && <UserInformationStep formValues=
-          {formValues} setFormValues={setFormValues}/>}
-          {currentStep == 1 && <ContactStep formValues=
-          {formValues} setFormValues={setFormValues}/>}
+          <Component
+            formValues={formValues}
+            setFormValues={setFormValues}
+            formErrors={formErrors}
+            setFormErrors={setFormErrors}
+            currentStep={currentStep}
+            nextStep={nextStep} />
+
         </form>
 
-        <ContinueButton currentStep={currentStep + 1} nextStep={nextStep} />
+        {/* <ContinueButton currentStep={currentStep + 1} nextStep={nextStep} /> */}
       </div>
     </main>
   );

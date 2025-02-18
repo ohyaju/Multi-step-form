@@ -1,14 +1,14 @@
-export const ContinueButton = () => {
+export const ContinueButton = ({nextStep,currentStep}) => {
   return (
     <div>
       {
-        props.currentStep != 1 && <button>
+        currentStep != 1 && <button>
           Back
         </button>
       }
 
-      <button onClick={props.nextStep}>
-        Continue <span>{props.currentStep}/3</span>
+      <button onClick={nextStep} className="disabled:text-gray-400">
+        Continue <span>{currentStep}/3</span>
       </button>
     </div>
   )
