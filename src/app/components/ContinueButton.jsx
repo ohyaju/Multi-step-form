@@ -1,4 +1,4 @@
-export const ContinueButton = ({ nextStep, prevStep, currentStep }) => {
+export const ContinueButton = ({ prevStep, currentStep }) => {
   return (
       <div className="flex justify-center gap-2">
           {
