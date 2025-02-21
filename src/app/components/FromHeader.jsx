@@ -2,19 +2,12 @@
 
 export const FormHeader = () => {
   return (
-      <div className="text-black">
-          <h1>Join Us! 😎</h1>
-          <p>Please provide all current information accurately.</p>
+      <div>
+       <img src="/logo.png" />
+
+          <h1 className="font-semibold text-[26px]">Join Us! 😎</h1>
+          <p className="text-[#8E8E8E]">Please provide all current information accurately.</p>
       </div>
   )
 }
 
-// export const Header = () => {
-//     return (
-//       <div>
-//         <img src="/logo.png" />
-//         <h1>Join Us! 😎</h1>
-//         <p>Please provide all current information accurately.</p>
-//       </div>
-//     )
-//   }

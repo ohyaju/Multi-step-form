@@ -1,77 +1,9 @@
-// 'use client'
-// import { UserInfoStep } from "./components/UserInfoStep";
-// import { FormHeader } from "./components/FromHeader";
-// import { ContinueButton } from "./components/ContinueButton";
-// import { InputField } from "./components/InputField";
-// import { ContactInfoStep } from "./components/ContactInfoStep";
-// // import { Component } from "react";
-// import { useEffect, useState } from "react";
-
-// export default function Home() {
-//   const [currentStep, setCurrentStep] = useState(0)
-
-//   const [formValues, setFormValues] = useState({
-//     firstName: "",
-//     lastName: "",
-//     userName: "",
-//     email: "",
-//     phoneNumber: "",
-//     password: "",
-//     confirmPassword: ""
-//   });
-
-//   const [formErrors, setFormErrors] = useState({
-//     firstName: "",
-//     lastName: "",
-//     userName: "",
-//     email: "",
-//     phoneNumber: "",
-//     password: "",
-//     confirmPassword: ""
-//   })
-
-//   const steps = [UserInfoStep, ContactInfoStep];
-//   const Component = steps[currentStep];
-
-//   const prevStep = () => {
-//     setCurrentStep((prev) => prev - 1)
-//   }
-
-//   const nextStep = () => {
-//     setCurrentStep((prev) => prev + 1);
-
-//     window.localStorage.setItem('multi-step-form', JSON.stringify({ formValues, currentStep: currentStep + 1 }));
-//   }
-
-//   useEffect(() => {
-//     const localStorage = JSON.parse(window.localStorage.getItem('multi-step-form'))
-
-//     if (!localStorage) return;
-
-//     setFormValues(localStorage.formValues)
-//     setCurrentStep(localStorage.currentStep)
-//   }, [])
-
-//   return (
-//     <main className="w-[480px] h-[655px] bg-white p-8">
-//       <FormHeader />
-//       <Component
-//         formValues={formValues}
-//         setFormValues={setFormValues}
-//         formErrors={formErrors}
-//         setFormErrors={setFormErrors}
-//         currentStep={currentStep}
-//         nextStep={nextStep}
-//         prevStep={prevStep}
-//       />
-//     </main>
-//   );
-// }
 'use client'
 import { UserInfoStep } from "@/app/components/UserInfoStep";
 import { useEffect, useState } from "react";
 import { ContactInfoStep } from "./components/ContactInfoStep";
 import { FormHeader } from "./components/FromHeader";
+import { ProfileInfoStep } from "./components/ProfileInfoStep";
 
 
 export default function Home() {
@@ -84,7 +16,8 @@ export default function Home() {
     email: "",
     phoneNumber: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    profileImage: ""
   });
   const [formErrors, setFormErrors] = useState({
     firstName: "",
@@ -93,9 +26,10 @@ export default function Home() {
     email: "",
     phoneNumber: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    profileImage: ""
   })
-  const steps = [UserInfoStep, ContactInfoStep];
+  const steps = [UserInfoStep, ContactInfoStep, ProfileInfoStep];
   const Component = steps[currentStep];
 
   const prevStep = () => {
@@ -103,43 +37,40 @@ export default function Home() {
   }
 
   const nextStep = () => {
-    if (steps.length <= currentStep) {
-      return;
-    }
+    // if (steps.length <= currentStep) {
+    //   return;
+    // }
+    if (currentStep == steps.length - 1) return;
     setCurrentStep((prev) => prev + 1);
-    window.localStorage.setItem('multi-step-form', JSON.stringify({ formValues, currentStep: currentStep + 1}));
+
+    window.localStorage.setItem('multi-step-form', JSON.stringify({ formValues, currentStep: currentStep + 1 }));
   }
   useEffect(() => {
     const localStorage = JSON.parse(window.localStorage.getItem('multi-step-form'))
 
     if (!localStorage) return;
 
-    // setFormValues(localStorage.formValues)
-    // setCurrentStep(localStorage.currentStep)
+    setFormValues(localStorage.formValues)
+    setCurrentStep(localStorage.currentStep)
   }, [])
 
+  const isEqual = currentStep == steps.length
+
   return (
-    <main className="w-[480px] h-[655px] bg-white p-8">
+    <main className="w-[480px] h-[655px] rounded-xl bg-white p-8">
       <FormHeader />
 
-      <Component
-        formValues={formValues}
-        setFormValues={setFormValues}
-        formErrors={formErrors}
-        setFormErrors={setFormErrors}
-        currentStep={currentStep}
-        nextStep={nextStep}
-        prevStep={prevStep}
-      />
-      {/* <ContactInfoStep
-      formValues={formValues}
-      setFormValues={setFormValues}
-      formErrors={formErrors}
-      setFormErrors={setFormErrors}
-      currentStep={currentStep}
-      nextStep={nextStep}
-      prevStep={prevStep}
-      /> */}
+      {
+        currentStep < steps.length && <Component
+          formValues={formValues}
+          setFormValues={setFormValues}
+          formErrors={formErrors}
+          setFormErrors={setFormErrors}
+          currentStep={currentStep}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      }
     </main>
   );
 }
